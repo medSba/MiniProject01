@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -42,8 +46,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     code=inputStream.read();
                 }
                 jsonString=sb.toString();
-                Toast.makeText(this, jsonString, Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
+                JSONObject jsonObject=new JSONObject(jsonString);
+                JSONArray jsonArray=jsonObject.getJSONArray("users");
+                StringBuilder sbfname=new StringBuilder();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject user=jsonArray.getJSONObject(i);
+                    JSONObject userName=user.getJSONObject("name");
+                    String fullname=String.format("%s $s\n",userName.get("first"),userName.get("last"));
+                    sbfname.append(fullname);
+                }
+                Toast.makeText(this, sbfname, Toast.LENGTH_SHORT).show();
+            } catch (IOException |JSONException e) {
                 throw new RuntimeException(e);
             }
         }else if (v.getId()==R.id.btnquit){

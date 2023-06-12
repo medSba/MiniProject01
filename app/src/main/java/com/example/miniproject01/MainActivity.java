@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btnusers){
-            ArrayAdapter<Users> adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,getUsers());
-            getUsers();
+            UserAdapter adapter=new UserAdapter(this,getUsers());
             lvUsers.setAdapter(adapter);
         }else if (v.getId()==R.id.btnquit){
             finish();

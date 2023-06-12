@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btnusers){
-            ArrayAdapter<String> adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,getUsers());
+            ArrayAdapter<Users> adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,getUsers());
             getUsers();
             lvUsers.setAdapter(adapter);
         }else if (v.getId()==R.id.btnquit){
@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private ArrayList<String> getUsers() {
-        ArrayList<String> Users=new ArrayList<>();
+    private ArrayList<Users> getUsers() {
+        ArrayList<Users> Users=new ArrayList<>();
         try {
             InputStream inputStream=getAssets().open("users.json");
             int code;
@@ -67,8 +67,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject user=jsonArray.getJSONObject(i);
                 JSONObject userName=user.getJSONObject("name");
-                String fullname=String.format("%s %s\n",userName.get("first"),userName.get("last"));
-                Users.add(fullname);
+//                String fullname=String.format("%s %s\n",userName.get("first"),userName.get("last"));
+                Users.add(new Users(
+                        userName.getString("first"),
+                        userName.getString("last"),
+                        user.getString("gender"),
+                        user.getString("city"))
+                );
             }
         } catch (IOException |JSONException e) {
             throw new RuntimeException(e);

@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ListView lvUsers;
     TextView tvquit;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnusers.setOnClickListener(this);
         tvquit.setOnClickListener(this);
 
-        GestureDetector gestureDetector=new GestureDetector(this,new GestureDetector.SimpleOnGestureListener(){
+        tvquit.setOnTouchListener(new onSwipeTouch(this) {
             @Override
-            public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
-                return super.onFling(e1, e2, velocityX, velocityY);
+            protected void swipeLeft() {
+                finish();
             }
         });
 

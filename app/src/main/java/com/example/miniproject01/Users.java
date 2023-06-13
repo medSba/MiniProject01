@@ -53,6 +53,9 @@ public class Users {
     @NonNull
     @Override
     public String toString() {
-        return String.format("%s | %s | %s",fullName(),gender,city);
+        return String.format("Hello! I'm %s \n And I'm %s \nI live in %s",
+                fullName(),
+                gender.equals("male") ? "♂":"♀",
+                city);
     }
 }

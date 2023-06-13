@@ -1,14 +1,16 @@
 package com.example.miniproject01;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,8 +21,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnquit,btnusers;
+    Button btnusers;
     ListView lvUsers;
+    TextView tvquit;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -28,12 +31,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnquit=findViewById(R.id.btnquit);
+        tvquit=findViewById(R.id.tvquit);
         btnusers=findViewById(R.id.btnusers);
         lvUsers=findViewById(R.id.lvUsers);
 
         btnusers.setOnClickListener(this);
-        btnquit.setOnClickListener(this);
+        tvquit.setOnClickListener(this);
+
+        GestureDetector gestureDetector=new GestureDetector(this,new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
+                return super.onFling(e1, e2, velocityX, velocityY);
+            }
+        });
 
     }
 
@@ -42,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId()==R.id.btnusers){
             UserAdapter adapter=new UserAdapter(this,getUsers());
             lvUsers.setAdapter(adapter);
-        }else if (v.getId()==R.id.btnquit){
-            finish();
         }
     }
 
